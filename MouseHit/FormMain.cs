@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace MouseHit
 {
+    enum GameLevel{
+        EASY,MEDIUM,HARD
+    };
     public partial class FormMain : Form
     {
         List<PictureBox> mouseList;
@@ -25,6 +28,10 @@ namespace MouseHit
         Button m_terminButton;
         bool m_isInGame;
         bool m_isStart;
+
+        //add different difficulty levels
+        GameLevel m_gameLevel;
+        int m_speed;
 
         public FormMain()
         {
@@ -89,8 +96,23 @@ namespace MouseHit
             ran = new Random();
             curMouseIndex = ran.Next(0, mouseList.Capacity);
 
+            m_gameLevel = GameLevel.HARD;
+            switch (m_gameLevel)
+            {
+                case GameLevel.EASY:
+                    m_speed = 4000;
+                    break;
+                case GameLevel.MEDIUM:
+                    m_speed = 2000;
+                    break;
+                case GameLevel.HARD:
+                    m_speed = 800;
+                    break;
+                
+            }
+
             timer = new Timer();
-            timer.Interval = 1500;
+            timer.Interval = m_speed;
             timer.Tick += timer_Tick;
 
             m_startButton.MouseClick += onStartBtn;
